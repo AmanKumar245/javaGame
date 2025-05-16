@@ -2,19 +2,24 @@ package main;
 
 import entity.Player;
 import tile.TileManger;
+
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
-    final int originaltileSize = 16;
+    final int originalTileSize = 16;
     final int scale = 3;
 
-   public final int tileSize = originaltileSize *scale; //48*48 tile
+   public final int tileSize = originalTileSize *scale; //48*48 tile
     public final int maxScreenCol = 16;
    public  final int getMaxScreenRow = 12;
    public final int  screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * getMaxScreenRow;
+    // WORLD SETTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = 0;
 
 
     //FPS
@@ -24,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManger tileM = new TileManger(this);
     keyHandler keyH  = new keyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
 
 
 
@@ -76,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
 //    }
     public void run(){
 
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = (double) 1000000000 /FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -96,11 +101,6 @@ public class GamePanel extends JPanel implements Runnable {
                 repaint();
                 delta --;
                 drawCount++;
-            }
-            if (timer >=1000000000){
-                System.out.println("FPS" + drawCount);
-                drawCount = 0;
-                timer = 0;
             }
         }
     }

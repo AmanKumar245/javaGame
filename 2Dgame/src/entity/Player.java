@@ -9,20 +9,31 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class Player extends entity{
 
     GamePanel gp;
     keyHandler keyH;
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, keyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
         setDefaultValues();
         getPlayerImage();
+
+
     }
+
+
     public void setDefaultValues(){
-        X = 100;
-        Y = 100;
+        worldX = gp.tileSize *23;
+        worldY = gp.tileSize *21;
         Speed = 4;
         direction = "down";
 
@@ -48,18 +59,18 @@ public class Player extends entity{
 
             if (keyH.upPressed){
                 direction = "up";
-                Y -= Speed;
+                worldY -= Speed;
 
             } else if (keyH.downPressed) {
                 direction = "down";
-                Y += Speed;
+                worldY += Speed;
             } else if (keyH.leftPressed) {
                 direction = "left";
-                X -= Speed;
+                worldX -= Speed;
 
             } else if (keyH.rightPressed) {
                 direction = "right";
-                X +=Speed;
+                worldX +=Speed;
 
             }
             spriteCounter++;
@@ -115,7 +126,7 @@ public class Player extends entity{
             default:
                 throw new IllegalStateException("Unexpected value: " + direction);
         }
-        g2.drawImage(image , X, Y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image , screenX, screenY, gp.tileSize, gp.tileSize, null);
 
     }
 }
