@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
     public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = 0;
+    public final int worldHeight = tileSize * maxWorldRow;
 
 
     //FPS
@@ -27,8 +27,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     TileManger tileM = new TileManger(this);
-    keyHandler keyH  = new keyHandler();
+    KeyHandler keyH  = new KeyHandler();
     Thread gameThread;
+   public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
 
 

@@ -1,7 +1,7 @@
 package entity;
 
 import main.GamePanel;
-import main.keyHandler;
+import main.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,19 +10,21 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class Player extends entity{
+public class Player extends Entity {
 
     GamePanel gp;
-    keyHandler keyH;
+    KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
 
-    public Player(GamePanel gp, keyHandler keyH){
+    public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(8,16, 32,32);
 
         setDefaultValues();
         getPlayerImage();
@@ -59,20 +61,39 @@ public class Player extends entity{
 
             if (keyH.upPressed){
                 direction = "up";
-                worldY -= Speed;
+
 
             } else if (keyH.downPressed) {
                 direction = "down";
-                worldY += Speed;
+
             } else if (keyH.leftPressed) {
                 direction = "left";
-                worldX -= Speed;
+
 
             } else if (keyH.rightPressed) {
                 direction = "right";
-                worldX +=Speed;
 
             }
+            //cheack tile collision
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+            if(collisionOn== false){
+                switch (direction){
+                    case "up":
+                        worldY -= Speed;
+                        break;
+                    case "down":
+                        worldY += Speed;
+                        break;
+                    case "left":
+                        worldX -= Speed;
+                        break;
+                    case "right":
+                        worldX +=Speed;
+                        break;
+                }
+            }
+
             spriteCounter++;
             if(spriteCounter >12){
                 if(spriteNum ==1){
