@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
    public final int  screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * getMaxScreenRow;
     // WORLD SETTINGS
+
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
 
@@ -125,9 +126,18 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
+        //Debug
+        long drawStart = 0;
+        if(keyH.checkDrawTime){
+            drawStart = System.nanoTime();
+        }
+
+        drawStart = System.nanoTime();
+
         tileM.draw(g2);
+
+        //Object
         for(int i = 0; i < obj.length; i ++){
             if(obj[i] != null) {
                 obj[i].draw(g2, this);
@@ -138,6 +148,16 @@ public class GamePanel extends JPanel implements Runnable {
 
         //UI
         ui.draw(g2);
+
+        //debug
+        if (keyH.checkDrawTime ){
+            long drawend = System.nanoTime();
+            long passed = drawend - drawStart;
+            g2.setColor(Color.BLUE);
+            g2.drawString("Draw TIme: " + passed, 10 ,400);
+            System.out.println("Draw Time "+ passed);
+        }
+
 
         g2.dispose();
     }
