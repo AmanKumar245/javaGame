@@ -40,7 +40,7 @@ public class KeyHandler implements KeyListener {
             } else if (checkDrawTime == true) {
                 checkDrawTime = false;
 
-                
+
             }
 
         }
