@@ -10,6 +10,7 @@ public class NPC_OldMan extends Entity {
         direction = "down";
         Speed = 1;
         getImage();
+        setDialogues();
     }
     public void getImage(){
 
@@ -23,6 +24,12 @@ public class NPC_OldMan extends Entity {
         right2 = setup("/npc/oldman_right_2");
 
     }
+
+    public void setDialogues(){
+        dialogues[0] = "Hello, Sharan??";
+        dialogues[1] = "Game Kab tak banega ??";
+    }
+
     public void setAction() {
 
         actionLockCounter++;
@@ -45,6 +52,10 @@ public class NPC_OldMan extends Entity {
             actionLockCounter = 0;
         }
 
+    }
+    public void speak(){
+        gp.ui.currentDialogue = dialogues[dialoguesIndex];
+        dialoguesIndex++;
     }
 
 }
