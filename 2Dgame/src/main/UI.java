@@ -182,21 +182,25 @@ public class UI {
         int y = gp.tileSize / 2;
         int width = gp.screenWidth - (gp.tileSize * 4);
         int height = gp.tileSize * 4;
-        drawSubWindow(x,y,width,height);
 
 
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,28F));
         x += gp.tileSize;
         y += gp.tileSize;
+        for(String line : currentDialogue.split("\n")) {
+            gp.drawString(line,x,y);
+            y += 40;
+        }
+        drawSubWindow(x,y,width,height);
         gp.drawString(currentDialogue,x,y);
     }
 
     public void drawSubWindow(int x,int y,int width, int height){
-        Color c = new Color(0,0,0,120);
+        Color c = new Color(255,255,255);
         g2.setColor(c);
         g2.fillRoundRect(x,y,width,height,35,35);
 
-        c = new Color(255,255,255);
+        c = new Color(0,0,0);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
         g2.fillRoundRect(x + 5,y +5,width - 10,height - 10,25,25);

@@ -54,8 +54,7 @@ public class NPC_OldMan extends Entity {
 
     }
     public void speak(){
-        gp.ui.currentDialogue = dialogues[dialoguesIndex];
-        dialoguesIndex++;
+        super.speak();
     }
 
 }
