@@ -11,15 +11,12 @@ public class Main {
         window.setTitle("Sharan On Adventure");
 
         GamePanel gamePanel = new GamePanel();
-         window.add(gamePanel);
-         window.pack();
+        window.add(gamePanel);
+        window.pack();
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         gamePanel.setupGame();
         gamePanel.startGameThread();
-
-
-
     }
 }

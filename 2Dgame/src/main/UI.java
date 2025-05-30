@@ -1,6 +1,8 @@
 package main;
 
+import object.OBJ_Heart;
 import object.OBJ_Key;
+import object.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,7 +12,9 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font arial_40 , arial_80B;
-//    BufferedImage keyImage;
+
+    BufferedImage heart_full,heart_half,heart_blank;
+
     public boolean messageOn = false;
     public String message = "";
     int messagecounter = 0;
@@ -29,6 +33,11 @@ public class UI {
 //        OBJ_Key key = new OBJ_Key(gp);
 //        keyImage = key.image;
 
+        // create HUD object
+        SuperObject heart = new OBJ_Heart(gp);
+        heart_full = heart.image;
+        heart_half = heart.image2;
+        heart_blank = heart.image3;
     }
 
     public void showMessage(String text){
@@ -105,14 +114,49 @@ public class UI {
 
         //PLAY STATE
         if(gp.gameState == gp.playState){
-            // do playstate stuff
+            drawPlayerLife();
         }
         if(gp.gameState == gp.pauseState){
+            drawPlayerLife();
             drawPauseScreen();
         }
         // dailouge
         if (gp.gameState == gp.dialogueState){
+            drawPlayerLife();
             drawDialogueScreen();
+        }
+    }
+
+    public void drawPlayerLife(){
+
+//        gp.player.life = 5;
+
+        int x = gp.tileSize/2;
+        int y = gp.tileSize/2;
+        int i = 0;
+
+        // Draw Max Life
+        while(i < gp.player.maxLife/2){
+            g2.drawImage(heart_blank,x,y,null);
+            i++;
+            x += gp.tileSize;
+        }
+
+        // Reset
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        i = 0;
+
+        // Draw Current Life
+        while(i < gp.player.life){
+            g2.drawImage(heart_half,x,y,null);
+            i++;
+            if(i < gp.player.life){
+                g2.drawImage(heart_full,x,y,null);
+            }
+            i++;
+            x += gp.tileSize;
+
         }
     }
 
@@ -182,28 +226,28 @@ public class UI {
         int y = gp.tileSize / 2;
         int width = gp.screenWidth - (gp.tileSize * 4);
         int height = gp.tileSize * 4;
+        drawSubWindow(x,y,width,height);
 
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,28F));
-        x += gp.tileSize;
         y += gp.tileSize;
+        x+= gp.tileSize;
+
         for(String line : currentDialogue.split("\n")) {
-            gp.drawString(line,x,y);
+            g2.setColor(Color.white);
+            g2.drawString(line,x,y);
             y += 40;
         }
-        drawSubWindow(x,y,width,height);
-        gp.drawString(currentDialogue,x,y);
+
     }
 
     public void drawSubWindow(int x,int y,int width, int height){
-        Color c = new Color(255,255,255);
-        g2.setColor(c);
+        g2.setColor(new Color(0,0,0,200));
         g2.fillRoundRect(x,y,width,height,35,35);
 
-        c = new Color(0,0,0);
-        g2.setColor(c);
+        g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
-        g2.fillRoundRect(x + 5,y +5,width - 10,height - 10,25,25);
+        g2.drawRoundRect(x + 5,y +5,width - 10,height - 10,25,25);
     }
 
     public int getXforCenteredText(String text){
